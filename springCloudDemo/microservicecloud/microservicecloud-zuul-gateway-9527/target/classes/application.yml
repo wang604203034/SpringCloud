@@ -1,0 +1,30 @@
+server: 
+  port: 9527   ##端口 如果修改了hosts文件那么不用加上localhost 直接填写在hosts映射的名称xxx:端口号
+ 
+spring: 
+  application:
+    name: microservicecloud-zuul-gateway  ##服务名对外暴露的名
+
+zuul:
+  prefix: /alibaba ##前缀 在端口加，在微服务名前面加 xxx:端口号/alibaba/自定义的下面path/提供的方法
+  ignored-services: "*" ##忽略所有微服务的真实名称，单个的可以 单独的写上微服务名称 microservicecloud-dept 
+  routes: ##保持kv,没猜错的话 需要 xx.serviceId  xx.path 点(.)前面的需要一直
+    consumer.serviceId: microservicecloud-dept  ##访问的微服务名称 http://myzuul.com:9527/microservicecloud-dept/dept/get/3
+    consumer.path: /mydept/**   ##替换掉访问的微服务名称 http://myzuul.com:9527/mydept/dept/get/1
+      
+eureka: 
+  client: 
+    service-url: 
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka  
+  instance:
+    instance-id: gateway-9527.com  ##微服务的小名 在暴露名称的下面
+    prefer-ip-address: true ###提示路径可以显示ip号，默认不修改是xxxx/info 
+ 
+ 
+info: ### KV组成，想填啥填啥
+  单位名称.小组名: 呵呵呵
+  build.artifactId: microservicecloud-zuul-gateway-9527 ###获取pom文件信息
+  build.version: 0.0.1-SNAPSHOT
+  网址: www.baidu.com
+  company.name: 阿里
+

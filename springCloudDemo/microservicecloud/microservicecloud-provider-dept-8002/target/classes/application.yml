@@ -1,0 +1,42 @@
+server:
+  port: 8002
+  
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
+  type-aliases-package: com.atguigu.springcloud.entities    # 所有Entity别名类所在包
+  mapper-locations:
+  - classpath:mybatis/mapper/**/*.xml                       # mapper映射文件
+    
+spring:
+   application:
+    name: microservicecloud-dept    ####对外暴露名称要一样  ### 微服务名称 比如方法都是相同的部署在不同的集群中
+   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包
+    url: jdbc:mysql://localhost:3306/clouddb02 #分库                            # 数据库名称
+    username: root
+    password: root
+    dbcp2:
+      min-idle: 5                                           # 数据库连接池的最小维持连接数
+      initial-size: 5                                       # 初始化连接数
+      max-total: 5                                          # 最大连接数
+      max-wait-millis: 200                                  # 等待连接获取的最大超时时间
+                                        
+eureka: 
+ client: #注册到eureka服务器内
+   service-url:       ###注册进相对应的eureka注册中心，想让该服务注册到什么下就填写上对应的服务器路径
+    defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+        ##以上是集群版，监听整个eureka,如果上述其中一个宕机，
+        ##那么其他的还可以使用，只不过在宕机的本地缓存消失了，需要在新的机器上重新读取
+     #defaultZone: http://localhost:7001/eureka  ##单机版
+        ######  DEFAULT_ZONE = defaultZone  必须使用 defaultZone作为Key值
+ instance:
+  instance-id: springcloudDemo-Dept8002 #名称需要改否则重复实例化微服务名称       ###修改微服务的名称 
+  prefer-ip-address: true ###提示路径可以显示ip号，默认不修改是xxxx/info 
+      
+info: ### KV组成，想填啥填啥
+  单位名称.小组名: 呵呵呵
+  build.artifactId: microservicecloud-provider-dept-8002 ###获取pom文件信息
+  build.version: 0.0.1-SNAPSHOT
+  网址: www.baidu.com
+  company.name: 阿里

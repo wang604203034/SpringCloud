@@ -1,0 +1,10 @@
+server:
+  port: 80
+  
+## 去eureka注册服务，这样才可以调用已经注册好的对外提供的微服务
+eureka:
+  client:
+    register-with-eureka: false  ##不注册自己
+    service-url: 
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      ##上面的是eureka集群
